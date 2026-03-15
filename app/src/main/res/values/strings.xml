@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Countdown</string>
+    <string name="add_event">Add Event</string>
+    <string name="event_name_hint">Event name (e.g. Exam, Birthday)</string>
+    <string name="pick_date">Pick Date</string>
+    <string name="save">Save</string>
+    <string name="days_left">days left</string>
+    <string name="day_left">day left</string>
+    <string name="no_events">No events yet.\nTap + to add one!</string>
+    <string name="error_enter_name">Please enter an event name</string>
+    <string name="error_pick_date">Please pick a date</string>
+    <string name="event_added">"%s" added!</string>
+    <string name="event_deleted">"%s" deleted</string>
+    <string name="widget_no_event">No upcoming events</string>
+    <string name="select_date_label">Selected date:</string>
+    <string name="not_selected">Not selected</string>
+    <string name="delete">Delete</string>
+</resources>
