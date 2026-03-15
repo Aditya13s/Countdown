@@ -21,5 +21,5 @@ A simple Android app to count down days to your upcoming events (exams, birthday
 
 Open the project in Android Studio (Arctic Fox or later) and build the `app` module.
 
-- Min SDK: 21 (Android 5.0)
+- Min SDK: 26 (Android 8.0)
 - Target SDK: 34 (Android 14)
