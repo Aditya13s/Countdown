@@ -30,4 +30,22 @@
     <string name="countdown_dhms">%1$dd %2$dh %3$dm %4$ds</string>
     <string name="countdown_hms">%1$dh %2$dm %3$ds</string>
     <string name="countdown_ms">%1$dm %2$ds</string>
+
+    <!-- Settings -->
+    <string name="settings">Settings</string>
+    <string name="widget_settings_title">Widget Settings</string>
+    <string name="widget_font_size_label">Widget Font Size</string>
+    <string name="font_size_normal">Normal</string>
+    <string name="font_size_large">Large</string>
+    <string name="widget_background_label">Widget Background</string>
+    <string name="bg_style_teal">Teal</string>
+    <string name="bg_style_dark">Dark</string>
+    <string name="bg_style_light">Light</string>
+    <string name="settings_saved">Settings saved</string>
+
+    <!-- Widget config -->
+    <string name="widget_config_title">Widget Setup</string>
+    <string name="widget_config_subtitle">Choose which event to display on the widget</string>
+    <string name="widget_option_next">Next upcoming event</string>
+    <string name="widget_config_done">Done</string>
 </resources>

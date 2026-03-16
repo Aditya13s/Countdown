@@ -9,4 +9,11 @@
         android:contentDescription="@string/sort"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/settings"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:contentDescription="@string/settings"
+        app:showAsAction="never" />
+
 </menu>

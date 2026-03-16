@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="🎯"
-        android:textSize="20sp" />
+        android:textSize="26sp" />
 
     <!-- Event name -->
     <TextView
@@ -28,7 +28,7 @@
         android:maxLines="1"
         android:text="Event"
         android:textColor="#DDFFFFFF"
-        android:textSize="11sp" />
+        android:textSize="14sp" />
 
     <!-- Days number -->
     <TextView
@@ -38,7 +38,7 @@
         android:gravity="center"
         android:text="0"
         android:textColor="#FFFFFFFF"
-        android:textSize="36sp"
+        android:textSize="44sp"
         android:textStyle="bold" />
 
     <!-- "days left" label -->
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="days left"
-        android:textColor="#AAFFFFFF"
-        android:textSize="10sp" />
+        android:textColor="#CCFFFFFF"
+        android:textSize="13sp" />
 
 </LinearLayout>
