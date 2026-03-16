@@ -1,6 +1,5 @@
 package com.countdown
 
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Handler
 import android.os.Looper
@@ -79,8 +78,6 @@ class EventAdapter(
         holder.timerRunnable = runnable
         holder.handler.postDelayed(runnable, 1000)
 
-        // Delete with accessible tint
-        holder.binding.btnDelete.setColorFilter(Color.parseColor("#FFE53935"))
         holder.binding.btnDelete.setOnClickListener { onDelete(event) }
     }
 

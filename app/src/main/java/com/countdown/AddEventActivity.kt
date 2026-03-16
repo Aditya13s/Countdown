@@ -1,14 +1,12 @@
 package com.countdown
 
 import android.app.DatePickerDialog
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.countdown.databinding.ActivityAddEventBinding
-import com.google.android.material.button.MaterialButton
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -52,25 +50,29 @@ class AddEventActivity : AppCompatActivity() {
             view.background = circle
 
             view.setOnClickListener {
+                val previous = selectedColorIndex
                 selectedColorIndex = index
-                updateColorSelection(colorViews, index)
+                if (previous != index) {
+                    updateColorCircle(colorViews[previous], EVENT_COLORS[previous], selected = false)
+                    updateColorCircle(colorViews[index], EVENT_COLORS[index], selected = true)
+                }
             }
         }
-        // Select default
-        updateColorSelection(colorViews, 0)
+        // Highlight default selection
+        updateColorCircle(colorViews[0], EVENT_COLORS[0], selected = true)
     }
 
-    private fun updateColorSelection(views: List<android.view.View>, selectedIndex: Int) {
-        views.forEachIndexed { index, view ->
-            val strokeWidth = if (index == selectedIndex) 4 else 0
-            val strokeColor = if (index == selectedIndex)
-                ContextCompat.getColor(this, R.color.color_picker_stroke) else Color.TRANSPARENT
-            val circle = GradientDrawable()
-            circle.shape = GradientDrawable.OVAL
-            circle.setColor(EVENT_COLORS[index])
-            circle.setStroke(strokeWidth.dpToPx(), strokeColor)
-            view.background = circle
+    private fun updateColorCircle(view: android.view.View, color: Int, selected: Boolean) {
+        val circle = GradientDrawable()
+        circle.shape = GradientDrawable.OVAL
+        circle.setColor(color)
+        if (selected) {
+            circle.setStroke(
+                4.dpToPx(),
+                ContextCompat.getColor(this, R.color.color_picker_stroke)
+            )
         }
+        view.background = circle
     }
 
     private fun Int.dpToPx(): Int = (this * resources.displayMetrics.density + 0.5f).toInt()

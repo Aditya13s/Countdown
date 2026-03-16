@@ -24,7 +24,7 @@ data class Event(
     }
 
     data class TimeComponents(val days: Long, val hours: Long, val minutes: Long, val seconds: Long) {
-        val isZero get() = days == 0L && hours == 0L && minutes == 0L && seconds == 0L
+        val isZero: Boolean = days == 0L && hours == 0L && minutes == 0L && seconds == 0L
     }
 }
 
