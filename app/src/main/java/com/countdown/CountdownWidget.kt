@@ -5,7 +5,9 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.util.TypedValue
 import android.widget.RemoteViews
+import androidx.core.content.ContextCompat
 
 class CountdownWidget : AppWidgetProvider() {
 
@@ -19,7 +21,20 @@ class CountdownWidget : AppWidgetProvider() {
         }
     }
 
+    override fun onDeleted(context: Context, appWidgetIds: IntArray) {
+        super.onDeleted(context, appWidgetIds)
+        for (widgetId in appWidgetIds) {
+            EventStorage.clearWidgetEventId(context, widgetId)
+        }
+    }
+
     companion object {
+        // Font sizes (sp) for the "Large" font preference
+        private const val FONT_LARGE_EMOJI_SP = 34f
+        private const val FONT_LARGE_NAME_SP = 18f
+        private const val FONT_LARGE_DAYS_SP = 56f
+        private const val FONT_LARGE_LABEL_SP = 16f
+
         fun updateAllWidgets(context: Context) {
             val manager = AppWidgetManager.getInstance(context)
             val ids = manager.getAppWidgetIds(
@@ -36,12 +51,38 @@ class CountdownWidget : AppWidgetProvider() {
 
         fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int) {
             val views = RemoteViews(context.packageName, R.layout.widget_layout)
-            val nextEvent = EventStorage.getNextEvent(context)
 
-            if (nextEvent != null) {
-                val days = nextEvent.daysRemaining()
-                views.setTextViewText(R.id.widget_emoji, nextEvent.emoji ?: "🎯")
-                views.setTextViewText(R.id.widget_event_name, nextEvent.name)
+            // Apply background based on settings
+            val bgStyle = EventStorage.getWidgetBgStyle(context)
+            val bgRes = when (bgStyle) {
+                "dark" -> R.drawable.widget_background_dark
+                "light" -> R.drawable.widget_background_light
+                else -> R.drawable.widget_background
+            }
+            views.setInt(R.id.widget_root, "setBackgroundResource", bgRes)
+
+            // Apply font size scaling based on settings
+            val fontLarge = EventStorage.isWidgetFontLarge(context)
+            if (fontLarge) {
+                views.setTextViewTextSize(R.id.widget_emoji, TypedValue.COMPLEX_UNIT_SP, FONT_LARGE_EMOJI_SP)
+                views.setTextViewTextSize(R.id.widget_event_name, TypedValue.COMPLEX_UNIT_SP, FONT_LARGE_NAME_SP)
+                views.setTextViewTextSize(R.id.widget_days_count, TypedValue.COMPLEX_UNIT_SP, FONT_LARGE_DAYS_SP)
+                views.setTextViewTextSize(R.id.widget_days_label, TypedValue.COMPLEX_UNIT_SP, FONT_LARGE_LABEL_SP)
+            }
+
+            // For light background, switch text to dark colours so they are legible on white
+            if (bgStyle == "light") {
+                views.setTextColor(R.id.widget_event_name, ContextCompat.getColor(context, R.color.widget_text_on_light))
+                views.setTextColor(R.id.widget_days_count, ContextCompat.getColor(context, R.color.widget_accent_on_light))
+                views.setTextColor(R.id.widget_days_label, ContextCompat.getColor(context, R.color.widget_subtext_on_light))
+            }
+
+            val event = EventStorage.getEventForWidget(context, widgetId)
+
+            if (event != null) {
+                val days = event.daysRemaining()
+                views.setTextViewText(R.id.widget_emoji, event.emoji ?: "🎯")
+                views.setTextViewText(R.id.widget_event_name, event.name)
                 views.setTextViewText(R.id.widget_days_count, days.toString())
                 views.setTextViewText(
                     R.id.widget_days_label,
