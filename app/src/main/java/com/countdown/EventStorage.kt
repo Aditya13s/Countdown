@@ -12,6 +12,9 @@ object EventStorage {
     private const val KEY_WIDGET_FONT_LARGE = "widget_font_large"
     private const val KEY_WIDGET_BG_STYLE = "widget_bg_style"
     private const val PREFIX_WIDGET_EVENT_ID = "widget_event_id_"
+    private const val KEY_THEME_MODE = "theme_mode"
+    private const val KEY_SORT_MODE = "sort_mode"
+    private const val KEY_REMINDER_DAYS = "reminder_days"
     private val gson = Gson()
 
     private fun prefs(context: Context): SharedPreferences =
@@ -35,6 +38,11 @@ object EventStorage {
 
     fun deleteEvent(context: Context, eventId: Long) {
         val events = getEvents(context).filter { it.id != eventId }
+        saveEvents(context, events)
+    }
+
+    fun updateEvent(context: Context, event: Event) {
+        val events = getEvents(context).map { if (it.id == event.id) event else it }
         saveEvents(context, events)
     }
 
@@ -85,5 +93,35 @@ object EventStorage {
 
     fun setWidgetBgStyle(context: Context, style: String) {
         prefs(context).edit().putString(KEY_WIDGET_BG_STYLE, style).apply()
+    }
+
+    // ── App theme mode ────────────────────────────────────────────────────────
+
+    /** Returns app theme mode: "light", "dark", or "system" (default). */
+    fun getThemeMode(context: Context): String =
+        prefs(context).getString(KEY_THEME_MODE, "system") ?: "system"
+
+    fun setThemeMode(context: Context, mode: String) {
+        prefs(context).edit().putString(KEY_THEME_MODE, mode).apply()
+    }
+
+    // ── Sort mode ─────────────────────────────────────────────────────────────
+
+    /** Returns persisted sort mode: "date" (default) or "name". */
+    fun getSortMode(context: Context): String =
+        prefs(context).getString(KEY_SORT_MODE, "date") ?: "date"
+
+    fun setSortMode(context: Context, mode: String) {
+        prefs(context).edit().putString(KEY_SORT_MODE, mode).apply()
+    }
+
+    // ── Reminder days ─────────────────────────────────────────────────────────
+
+    /** Returns reminder days before event: 0 = off, 1, 3, or 7. */
+    fun getReminderDays(context: Context): Int =
+        prefs(context).getInt(KEY_REMINDER_DAYS, 1)
+
+    fun setReminderDays(context: Context, days: Int) {
+        prefs(context).edit().putInt(KEY_REMINDER_DAYS, days).apply()
     }
 }

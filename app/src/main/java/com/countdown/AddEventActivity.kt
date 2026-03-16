@@ -29,6 +29,9 @@ class AddEventActivity : AppCompatActivity() {
     /** Map from category string to its TextView, used for selection-ring management. */
     private val categoryViewMap = mutableMapOf<String, TextView>()
 
+    /** Non-null when editing an existing event. */
+    private var editingEvent: Event? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddEventBinding.inflate(layoutInflater)
@@ -36,18 +39,60 @@ class AddEventActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = getString(R.string.add_event)
+
+        // Check if we're editing an existing event
+        val editEventId = intent.getLongExtra(MainActivity.EXTRA_EVENT_ID, -1L)
+        if (editEventId != -1L) {
+            editingEvent = EventStorage.getEvents(this).firstOrNull { it.id == editEventId }
+        }
+
+        supportActionBar?.title = if (editingEvent != null)
+            getString(R.string.edit_event)
+        else
+            getString(R.string.add_event)
 
         setupColorPicker()
         setupEmojiPicker()
         setupCategoryPicker()
         binding.btnPickDate.setOnClickListener { showDatePicker() }
         binding.btnSave.setOnClickListener { saveEvent() }
+
+        editingEvent?.let { prefillForEdit(it) }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
+    }
+
+    private fun prefillForEdit(event: Event) {
+        binding.etEventName.setText(event.name)
+        binding.etNote.setText(event.note ?: "")
+        binding.switchPin.isChecked = event.isPinned
+
+        selectedDateMillis = event.dateMillis
+        binding.tvSelectedDate.text = dateFormat.format(java.util.Date(event.dateMillis))
+        binding.btnSave.isEnabled = true
+
+        // Colour
+        val colorViews = listOf(
+            binding.color0, binding.color1, binding.color2, binding.color3,
+            binding.color4, binding.color5, binding.color6, binding.color7
+        )
+        val prevIndex = selectedColorIndex
+        selectedColorIndex = event.colorIndex
+        updateColorCircle(colorViews[prevIndex], EVENT_COLORS[prevIndex], selected = false)
+        updateColorCircle(colorViews[selectedColorIndex], EVENT_COLORS[selectedColorIndex], selected = true)
+
+        // Emoji
+        val emojiIdx = EVENT_EMOJIS.indexOf(event.emoji ?: "🎯").takeIf { it >= 0 } ?: 0
+        selectEmoji(emojiIdx)
+
+        // Category
+        if (event.category != null) {
+            val catIdx = EVENT_CATEGORIES.indexOf(event.category).takeIf { it >= 0 } ?: -1
+            if (catIdx >= 0) selectCategory(catIdx)
+        }
     }
 
     // ── Color picker ─────────────────────────────────────────────────────────
@@ -202,10 +247,12 @@ class AddEventActivity : AppCompatActivity() {
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         )
-        // Minimum date = tomorrow
-        val tomorrow = Calendar.getInstance()
-        tomorrow.add(Calendar.DAY_OF_YEAR, 1)
-        dialog.datePicker.minDate = tomorrow.timeInMillis
+        // Minimum date = tomorrow (skip when editing – allow keeping same date)
+        if (editingEvent == null) {
+            val tomorrow = Calendar.getInstance()
+            tomorrow.add(Calendar.DAY_OF_YEAR, 1)
+            dialog.datePicker.minDate = tomorrow.timeInMillis
+        }
         dialog.show()
     }
 
@@ -223,19 +270,39 @@ class AddEventActivity : AppCompatActivity() {
         }
         val note = binding.etNote.text.toString().trim().ifEmpty { null }
         val category = if (selectedCategoryIndex >= 0) EVENT_CATEGORIES[selectedCategoryIndex] else null
-        val event = Event(
-            name = name,
-            dateMillis = selectedDateMillis,
-            colorIndex = selectedColorIndex,
-            note = note,
-            emoji = EVENT_EMOJIS[selectedEmojiIndex],
-            createdAt = System.currentTimeMillis(),
-            category = category,
-            isPinned = binding.switchPin.isChecked
-        )
-        EventStorage.addEvent(this, event)
-        CountdownWidget.updateAllWidgets(this)
-        Toast.makeText(this, getString(R.string.event_added, name), Toast.LENGTH_SHORT).show()
+        val reminderDays = EventStorage.getReminderDays(this)
+
+        if (editingEvent != null) {
+            val updated = editingEvent!!.copy(
+                name = name,
+                dateMillis = selectedDateMillis,
+                colorIndex = selectedColorIndex,
+                note = note,
+                emoji = EVENT_EMOJIS[selectedEmojiIndex],
+                category = category,
+                isPinned = binding.switchPin.isChecked
+            )
+            NotificationHelper.cancelReminder(this, updated.id)
+            EventStorage.updateEvent(this, updated)
+            NotificationHelper.scheduleReminder(this, updated, reminderDays)
+            CountdownWidget.updateAllWidgets(this)
+            Toast.makeText(this, getString(R.string.event_updated, name), Toast.LENGTH_SHORT).show()
+        } else {
+            val event = Event(
+                name = name,
+                dateMillis = selectedDateMillis,
+                colorIndex = selectedColorIndex,
+                note = note,
+                emoji = EVENT_EMOJIS[selectedEmojiIndex],
+                createdAt = System.currentTimeMillis(),
+                category = category,
+                isPinned = binding.switchPin.isChecked
+            )
+            EventStorage.addEvent(this, event)
+            NotificationHelper.scheduleReminder(this, event, reminderDays)
+            CountdownWidget.updateAllWidgets(this)
+            Toast.makeText(this, getString(R.string.event_added, name), Toast.LENGTH_SHORT).show()
+        }
         finish()
     }
 
@@ -243,4 +310,3 @@ class AddEventActivity : AppCompatActivity() {
 
     private fun Int.dpToPx(): Int = (this * resources.displayMetrics.density + 0.5f).toInt()
 }
-

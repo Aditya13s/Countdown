@@ -62,4 +62,36 @@
     <string name="widget_config_subtitle">Choose which event to display on the widget</string>
     <string name="widget_option_next">Next upcoming event</string>
     <string name="widget_config_done">Done</string>
+
+    <!-- Edit event -->
+    <string name="edit_event">Edit Event</string>
+    <string name="edit">Edit</string>
+    <string name="event_updated">"%s" updated!</string>
+
+    <!-- Search -->
+    <string name="search_hint">🔍 Search events…</string>
+    <string name="no_search_results">No events match your search</string>
+
+    <!-- Settings sections -->
+    <string name="section_appearance">Appearance</string>
+    <string name="section_list">Event List</string>
+    <string name="section_notifications">Notifications</string>
+    <string name="save_settings">Save Settings</string>
+
+    <!-- App theme -->
+    <string name="app_theme_label">App Theme</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+
+    <!-- Default sort -->
+    <string name="default_sort_label">Default Sort Order</string>
+
+    <!-- Reminder -->
+    <string name="reminder_label">Event Reminder</string>
+    <string name="reminder_subtitle">Get notified before your event</string>
+    <string name="reminder_off">Off</string>
+    <string name="reminder_1day">1 Day</string>
+    <string name="reminder_3days">3 Days</string>
+    <string name="reminder_7days">7 Days</string>
 </resources>

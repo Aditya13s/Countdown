@@ -16,7 +16,8 @@ import java.util.Locale
 
 class EventAdapter(
     private val events: MutableList<Event>,
-    private val onDelete: (Event) -> Unit
+    private val onDelete: (Event) -> Unit,
+    private val onEdit: (Event) -> Unit
 ) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
     private val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
@@ -131,6 +132,7 @@ class EventAdapter(
 
         // ── Buttons ───────────────────────────────────────────────────────────
         holder.binding.btnDelete.setOnClickListener { onDelete(event) }
+        holder.binding.btnEdit.setOnClickListener { onEdit(event) }
 
         holder.binding.btnShare.setOnClickListener {
             val tc = event.timeComponents()
