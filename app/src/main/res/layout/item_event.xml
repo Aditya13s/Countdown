@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="12dp"
     android:layout_marginVertical="5dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="2dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="4dp"
     app:cardBackgroundColor="?attr/colorSurface">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,6 +25,17 @@
             android:textSize="26sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Pin icon (shown when event is pinned) -->
+        <TextView
+            android:id="@+id/tv_pin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📌"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/tv_emoji"
+            app:layout_constraintBottom_toBottomOf="@id/tv_emoji" />
 
         <!-- Event name -->
         <TextView
@@ -58,6 +69,22 @@
             app:layout_constraintEnd_toStartOf="@id/btn_delete"
             app:layout_constraintTop_toBottomOf="@id/tv_event_name" />
 
+        <!-- Category chip (hidden when no category) -->
+        <TextView
+            android:id="@+id/tv_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_chip"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:textColor="@color/accent"
+            android:textSize="10sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/tv_emoji"
+            app:layout_constraintTop_toBottomOf="@id/tv_event_date" />
+
         <!-- Optional note (hidden when empty) -->
         <TextView
             android:id="@+id/tv_note"
@@ -72,7 +99,7 @@
             android:visibility="gone"
             app:layout_constraintStart_toEndOf="@id/tv_emoji"
             app:layout_constraintEnd_toStartOf="@id/btn_delete"
-            app:layout_constraintTop_toBottomOf="@id/tv_event_date" />
+            app:layout_constraintTop_toBottomOf="@id/tv_category" />
 
         <!-- Live countdown ticker -->
         <TextView
@@ -81,7 +108,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="12dp"
             android:fontFamily="monospace"
             android:text="28d 04h 30m 00s"
             android:textColor="@color/accent"
@@ -89,7 +115,22 @@
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/tv_emoji"
             app:layout_constraintEnd_toStartOf="@id/btn_delete"
-            app:layout_constraintTop_toBottomOf="@id/tv_note"
+            app:layout_constraintTop_toBottomOf="@id/tv_note" />
+
+        <!-- Milestone badge (e.g. "🔥 Almost there!") -->
+        <TextView
+            android:id="@+id/tv_milestone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/tv_emoji"
+            app:layout_constraintEnd_toStartOf="@id/btn_delete"
+            app:layout_constraintTop_toBottomOf="@id/tv_countdown"
             app:layout_constraintBottom_toTopOf="@id/progress_indicator" />
 
         <!-- Delete button -->

@@ -4,9 +4,9 @@
         <item name="colorPrimary">@color/accent</item>
         <item name="colorPrimaryVariant">@color/accent_dark</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">#FFFFA726</item>
-        <item name="colorSecondaryVariant">#FFF57C00</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/pink_accent</item>
+        <item name="colorSecondaryVariant">#FFDB2777</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="colorSurface">@color/surface</item>
         <item name="android:colorBackground">@color/background</item>

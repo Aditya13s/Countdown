@@ -10,7 +10,11 @@ data class Event(
     /** Emoji badge chosen by the user (null → default "🎯"). */
     val emoji: String? = null,
     /** Unix-ms when the event was created; 0 when unknown (migrated from older data). */
-    val createdAt: Long = 0L
+    val createdAt: Long = 0L,
+    /** Optional category tag (null for events created before this field was added). */
+    val category: String? = null,
+    /** Whether this event is pinned to the top of the list. */
+    val isPinned: Boolean = false
 ) {
     fun daysRemaining(): Long {
         val now = System.currentTimeMillis()
@@ -51,19 +55,32 @@ data class Event(
 
 /** Accent colours available for events (indices match AddEventActivity.EVENT_COLORS). */
 val EVENT_COLORS = listOf(
-    0xFF5C6BC0.toInt(),  // Indigo (default)
-    0xFFE53935.toInt(),  // Red
-    0xFF43A047.toInt(),  // Green
-    0xFFFB8C00.toInt(),  // Orange
-    0xFF8E24AA.toInt(),  // Purple
-    0xFF00ACC1.toInt(),  // Cyan
-    0xFFE91E63.toInt(),  // Pink
-    0xFF00897B.toInt()   // Teal
+    0xFFEC4899.toInt(),  // Hot Pink (default)
+    0xFF7C3AED.toInt(),  // Vivid Purple
+    0xFF3B82F6.toInt(),  // Electric Blue
+    0xFF10B981.toInt(),  // Emerald Green
+    0xFFF97316.toInt(),  // Vivid Orange
+    0xFFEF4444.toInt(),  // Red
+    0xFF06B6D4.toInt(),  // Cyan
+    0xFFEAB308.toInt()   // Gold
 )
 
 /** Emoji options for event badges. */
 val EVENT_EMOJIS = listOf(
     "🎯", "🎂", "🎄", "🏆", "✈️", "🎓", "💍", "🏃",
     "🎵", "🏖️", "🎉", "💼", "❤️", "🎁", "📅", "🚀",
-    "🌟", "🔔", "🍕", "⚽"
+    "🌟", "🔔", "🍕", "⚽", "🎮", "📚", "🌈", "💎",
+    "🦋", "🌺", "🎸", "🏄", "🎭", "🔥"
+)
+
+/** Category options for events. */
+val EVENT_CATEGORIES = listOf(
+    "📚 School",
+    "🎂 Birthday",
+    "✈️ Travel",
+    "🏆 Sports",
+    "🎉 Festival",
+    "💼 Work",
+    "❤️ Personal",
+    "🏠 Home"
 )
