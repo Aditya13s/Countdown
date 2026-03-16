@@ -22,6 +22,30 @@
             app:title="@string/app_name"
             app:titleTextColor="@color/white" />
 
+        <!-- Search bar -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="12dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="8dp"
+            android:background="@drawable/gradient_header"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            app:hintTextColor="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/search_hint"
+                android:inputType="text"
+                android:textColor="@color/white"
+                android:textColorHint="#AAFFFFFF"
+                android:imeOptions="actionSearch"
+                android:singleLine="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Empty state -->
@@ -60,6 +84,18 @@
             android:gravity="center" />
 
     </LinearLayout>
+
+    <!-- No search results state -->
+    <TextView
+        android:id="@+id/tv_no_results"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="@string/no_search_results"
+        android:textColor="@color/text_secondary"
+        android:textSize="16sp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
