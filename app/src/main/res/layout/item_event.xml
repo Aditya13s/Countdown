@@ -1,44 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="12dp"
-    android:layout_marginVertical="6dp"
-    app:cardCornerRadius="14dp"
-    app:cardElevation="3dp"
+    android:layout_marginVertical="5dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
     app:cardBackgroundColor="?attr/colorSurface">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Accent colour stripe (constrained to full card height) -->
-        <View
-            android:id="@+id/color_stripe"
-            android:layout_width="5dp"
-            android:layout_height="0dp"
-            android:background="#FF5C6BC0"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+        <!-- Emoji badge: filled circle with event accent colour -->
+        <TextView
+            android:id="@+id/tv_emoji"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="14dp"
+            android:gravity="center"
+            android:textSize="26sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Event name -->
         <TextView
             android:id="@+id/tv_event_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="14dp"
             android:layout_marginEnd="4dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Event Name"
             android:textColor="?attr/colorOnSurface"
-            android:textSize="17sp"
+            android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/color_stripe"
+            app:layout_constraintStart_toEndOf="@id/tv_emoji"
             app:layout_constraintEnd_toStartOf="@id/btn_delete"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,47 +49,92 @@
             android:id="@+id/tv_event_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="2dp"
             android:text="01 Jan 2025"
             android:textColor="@color/text_secondary"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/color_stripe"
+            android:textSize="11sp"
+            app:layout_constraintStart_toEndOf="@id/tv_emoji"
             app:layout_constraintEnd_toStartOf="@id/btn_delete"
             app:layout_constraintTop_toBottomOf="@id/tv_event_name" />
 
-        <!-- Live countdown -->
+        <!-- Optional note (hidden when empty) -->
+        <TextView
+            android:id="@+id/tv_note"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/text_secondary"
+            android:textSize="11sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/tv_emoji"
+            app:layout_constraintEnd_toStartOf="@id/btn_delete"
+            app:layout_constraintTop_toBottomOf="@id/tv_event_date" />
+
+        <!-- Live countdown ticker -->
         <TextView
             android:id="@+id/tv_countdown"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="14dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
             android:fontFamily="monospace"
             android:text="28d 04h 30m 00s"
             android:textColor="@color/accent"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/color_stripe"
+            app:layout_constraintStart_toEndOf="@id/tv_emoji"
             app:layout_constraintEnd_toStartOf="@id/btn_delete"
-            app:layout_constraintTop_toBottomOf="@id/tv_event_date"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/tv_note"
+            app:layout_constraintBottom_toTopOf="@id/progress_indicator" />
 
         <!-- Delete button -->
         <ImageButton
             android:id="@+id/btn_delete"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_marginEnd="8dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="4dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/delete"
             android:src="@android:drawable/ic_menu_delete"
             app:tint="@color/delete_red"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Share button -->
+        <ImageButton
+            android:id="@+id/btn_share"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/share"
+            android:src="@android:drawable/ic_menu_share"
+            app:tint="@color/text_secondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/progress_indicator" />
+
+        <!-- Progress bar showing % of time elapsed to the event -->
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progress_indicator"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="0"
+            app:trackCornerRadius="0dp"
+            app:indicatorColor="@color/accent"
+            app:trackColor="@color/progress_track"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

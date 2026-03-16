@@ -2,6 +2,8 @@ package com.countdown
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +15,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: EventAdapter
     private val events = mutableListOf<Event>()
+
+    private enum class SortMode { DATE, NAME }
+    private var sortMode = SortMode.DATE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,14 +35,39 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_sort -> {
+                sortMode = if (sortMode == SortMode.DATE) SortMode.NAME else SortMode.DATE
+                val msg = if (sortMode == SortMode.DATE)
+                    getString(R.string.sort_by_date)
+                else
+                    getString(R.string.sort_by_name)
+                Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).show()
+                loadEvents()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         loadEvents()
     }
 
     private fun loadEvents() {
-        val loaded = EventStorage.getEvents(this)
-            .sortedBy { it.dateMillis }
+        val loaded = EventStorage.getEvents(this).let { list ->
+            when (sortMode) {
+                SortMode.DATE -> list.sortedBy { it.dateMillis }
+                SortMode.NAME -> list.sortedBy { it.name.lowercase() }
+            }
+        }
         events.clear()
         events.addAll(loaded)
         adapter.notifyDataSetChanged()

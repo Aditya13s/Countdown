@@ -3,6 +3,7 @@
     <string name="app_name">Countdown</string>
     <string name="add_event">Add Event</string>
     <string name="event_name_hint">Event name (e.g. Exam, Birthday)</string>
+    <string name="note_hint">Add a note (optional)</string>
     <string name="pick_date">Pick Date</string>
     <string name="save">Save Event</string>
     <string name="days_left">days left</string>
@@ -18,7 +19,12 @@
     <string name="select_date_label">Date</string>
     <string name="not_selected">Not selected</string>
     <string name="delete">Delete</string>
+    <string name="share">Share</string>
+    <string name="sort">Sort</string>
+    <string name="sort_by_date">Sorted by date</string>
+    <string name="sort_by_name">Sorted by name</string>
     <string name="pick_colour_label">Colour</string>
+    <string name="pick_emoji_label">Emoji</string>
     <string name="event_passed">Event passed!</string>
     <!-- Countdown format strings -->
     <string name="countdown_dhms">%1$dd %2$dh %3$dm %4$ds</string>

@@ -3,6 +3,9 @@ package com.countdown
 import android.app.DatePickerDialog
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.view.Gravity
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -16,7 +19,11 @@ class AddEventActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddEventBinding
     private var selectedDateMillis: Long = 0L
     private var selectedColorIndex: Int = 0
+    private var selectedEmojiIndex: Int = 0
     private val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+
+    /** Map from emoji string to its TextView, used for selection-ring management. */
+    private val emojiViewMap = mutableMapOf<String, TextView>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +35,7 @@ class AddEventActivity : AppCompatActivity() {
         supportActionBar?.title = getString(R.string.add_event)
 
         setupColorPicker()
+        setupEmojiPicker()
         binding.btnPickDate.setOnClickListener { showDatePicker() }
         binding.btnSave.setOnClickListener { saveEvent() }
     }
@@ -36,6 +44,8 @@ class AddEventActivity : AppCompatActivity() {
         finish()
         return true
     }
+
+    // ── Color picker ─────────────────────────────────────────────────────────
 
     private fun setupColorPicker() {
         val colorViews = listOf(
@@ -75,7 +85,46 @@ class AddEventActivity : AppCompatActivity() {
         view.background = circle
     }
 
-    private fun Int.dpToPx(): Int = (this * resources.displayMetrics.density + 0.5f).toInt()
+    // ── Emoji picker ─────────────────────────────────────────────────────────
+
+    private fun setupEmojiPicker() {
+        EVENT_EMOJIS.forEachIndexed { index, emoji ->
+            val tv = TextView(this).apply {
+                text = emoji
+                textSize = 22f
+                gravity = Gravity.CENTER
+                val size = 44.dpToPx()
+                layoutParams = LinearLayout.LayoutParams(size, size).apply {
+                    marginEnd = 6.dpToPx()
+                }
+                setPadding(2.dpToPx(), 2.dpToPx(), 2.dpToPx(), 2.dpToPx())
+                setOnClickListener { selectEmoji(index) }
+            }
+            emojiViewMap[emoji] = tv
+            binding.llEmojiContainer.addView(tv)
+        }
+        selectEmoji(0)
+    }
+
+    private fun selectEmoji(index: Int) {
+        if (EVENT_EMOJIS.isEmpty()) return
+        val safeIndex = index.coerceIn(0, EVENT_EMOJIS.lastIndex)
+        // Remove ring from previous selection
+        emojiViewMap[EVENT_EMOJIS[selectedEmojiIndex]]?.background = null
+        selectedEmojiIndex = safeIndex
+        // Draw selection ring around new pick
+        val ring = GradientDrawable().apply {
+            shape = GradientDrawable.OVAL
+            setColor(android.graphics.Color.TRANSPARENT)
+            setStroke(
+                3.dpToPx(),
+                ContextCompat.getColor(this@AddEventActivity, R.color.accent)
+            )
+        }
+        emojiViewMap[EVENT_EMOJIS[safeIndex]]?.background = ring
+    }
+
+    // ── Date picker ──────────────────────────────────────────────────────────
 
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
@@ -100,6 +149,8 @@ class AddEventActivity : AppCompatActivity() {
         dialog.show()
     }
 
+    // ── Save ─────────────────────────────────────────────────────────────────
+
     private fun saveEvent() {
         val name = binding.etEventName.text.toString().trim()
         if (name.isEmpty()) {
@@ -110,10 +161,22 @@ class AddEventActivity : AppCompatActivity() {
             Toast.makeText(this, R.string.error_pick_date, Toast.LENGTH_SHORT).show()
             return
         }
-        val event = Event(name = name, dateMillis = selectedDateMillis, colorIndex = selectedColorIndex)
+        val note = binding.etNote.text.toString().trim().ifEmpty { null }
+        val event = Event(
+            name = name,
+            dateMillis = selectedDateMillis,
+            colorIndex = selectedColorIndex,
+            note = note,
+            emoji = EVENT_EMOJIS[selectedEmojiIndex],
+            createdAt = System.currentTimeMillis()
+        )
         EventStorage.addEvent(this, event)
         CountdownWidget.updateAllWidgets(this)
         Toast.makeText(this, getString(R.string.event_added, name), Toast.LENGTH_SHORT).show()
         finish()
     }
+
+    // ── Util ─────────────────────────────────────────────────────────────────
+
+    private fun Int.dpToPx(): Int = (this * resources.displayMetrics.density + 0.5f).toInt()
 }

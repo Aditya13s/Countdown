@@ -50,6 +50,24 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Note field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_note"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="@string/note_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapSentences"
+                    android:maxLines="2" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <!-- Date picker -->
             <TextView
                 android:layout_width="wrap_content"
@@ -85,6 +103,32 @@
                     android:text="@string/pick_date" />
 
             </LinearLayout>
+
+            <!-- Emoji picker -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/pick_emoji_label"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.08" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/ll_emoji_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="4dp" />
+
+            </HorizontalScrollView>
 
             <!-- Colour picker -->
             <TextView
