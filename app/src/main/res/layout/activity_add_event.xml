@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@drawable/gradient_header"
             app:popupTheme="@style/Theme.Countdown.PopupOverlay"
             app:titleTextColor="@color/white" />
 
@@ -181,12 +181,48 @@
 
             </LinearLayout>
 
+            <!-- Category picker -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/pick_category_label"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.08" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/ll_category_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="4dp" />
+
+            </HorizontalScrollView>
+
+            <!-- Pin event toggle -->
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch_pin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/pin_event_label"
+                android:textColor="?attr/colorOnBackground"
+                android:textSize="15sp" />
+
             <!-- Save button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:enabled="false"
                 android:text="@string/save"
                 android:textSize="16sp"

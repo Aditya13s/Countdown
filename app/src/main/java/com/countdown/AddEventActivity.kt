@@ -20,10 +20,14 @@ class AddEventActivity : AppCompatActivity() {
     private var selectedDateMillis: Long = 0L
     private var selectedColorIndex: Int = 0
     private var selectedEmojiIndex: Int = 0
+    private var selectedCategoryIndex: Int = -1  // -1 means "None"
     private val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
 
     /** Map from emoji string to its TextView, used for selection-ring management. */
     private val emojiViewMap = mutableMapOf<String, TextView>()
+
+    /** Map from category string to its TextView, used for selection-ring management. */
+    private val categoryViewMap = mutableMapOf<String, TextView>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +40,7 @@ class AddEventActivity : AppCompatActivity() {
 
         setupColorPicker()
         setupEmojiPicker()
+        setupCategoryPicker()
         binding.btnPickDate.setOnClickListener { showDatePicker() }
         binding.btnSave.setOnClickListener { saveEvent() }
     }
@@ -124,6 +129,61 @@ class AddEventActivity : AppCompatActivity() {
         emojiViewMap[EVENT_EMOJIS[safeIndex]]?.background = ring
     }
 
+    // ── Category picker ───────────────────────────────────────────────────────
+
+    private fun setupCategoryPicker() {
+        EVENT_CATEGORIES.forEachIndexed { index, category ->
+            val tv = TextView(this).apply {
+                text = category
+                textSize = 13f
+                gravity = Gravity.CENTER
+                setPadding(12.dpToPx(), 6.dpToPx(), 12.dpToPx(), 6.dpToPx())
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply { marginEnd = 8.dpToPx() }
+                setOnClickListener { selectCategory(index) }
+            }
+            setCategoryChipStyle(tv, selected = false)
+            categoryViewMap[category] = tv
+            binding.llCategoryContainer.addView(tv)
+        }
+    }
+
+    private fun selectCategory(index: Int) {
+        val safeIndex = index.coerceIn(0, EVENT_CATEGORIES.lastIndex)
+        // Deselect previous
+        if (selectedCategoryIndex >= 0) {
+            categoryViewMap[EVENT_CATEGORIES[selectedCategoryIndex]]?.let {
+                setCategoryChipStyle(it, selected = false)
+            }
+        }
+        // Toggle off if same category tapped again
+        if (selectedCategoryIndex == safeIndex) {
+            selectedCategoryIndex = -1
+            return
+        }
+        selectedCategoryIndex = safeIndex
+        categoryViewMap[EVENT_CATEGORIES[safeIndex]]?.let { setCategoryChipStyle(it, selected = true) }
+    }
+
+    private fun setCategoryChipStyle(tv: TextView, selected: Boolean) {
+        val bg = GradientDrawable().apply {
+            shape = GradientDrawable.RECTANGLE
+            cornerRadius = 20.dpToPx().toFloat()
+            if (selected) {
+                setColor(ContextCompat.getColor(this@AddEventActivity, R.color.accent))
+            } else {
+                setColor(ContextCompat.getColor(this@AddEventActivity, R.color.chip_bg))
+            }
+        }
+        tv.background = bg
+        tv.setTextColor(
+            if (selected) ContextCompat.getColor(this, R.color.white)
+            else ContextCompat.getColor(this, R.color.accent)
+        )
+    }
+
     // ── Date picker ──────────────────────────────────────────────────────────
 
     private fun showDatePicker() {
@@ -162,13 +222,16 @@ class AddEventActivity : AppCompatActivity() {
             return
         }
         val note = binding.etNote.text.toString().trim().ifEmpty { null }
+        val category = if (selectedCategoryIndex >= 0) EVENT_CATEGORIES[selectedCategoryIndex] else null
         val event = Event(
             name = name,
             dateMillis = selectedDateMillis,
             colorIndex = selectedColorIndex,
             note = note,
             emoji = EVENT_EMOJIS[selectedEmojiIndex],
-            createdAt = System.currentTimeMillis()
+            createdAt = System.currentTimeMillis(),
+            category = category,
+            isPinned = binding.switchPin.isChecked
         )
         EventStorage.addEvent(this, event)
         CountdownWidget.updateAllWidgets(this)
@@ -180,3 +243,4 @@ class AddEventActivity : AppCompatActivity() {
 
     private fun Int.dpToPx(): Int = (this * resources.displayMetrics.density + 0.5f).toInt()
 }
+

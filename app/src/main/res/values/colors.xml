@@ -7,25 +7,37 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="accent">#FF00897B</color>
-    <color name="accent_dark">#FF00695C</color>
+
+    <!-- Gen-Z vibrant palette -->
+    <color name="accent">#FF7C3AED</color>
+    <color name="accent_dark">#FF5B21B6</color>
+    <color name="pink_accent">#FFEC4899</color>
 
     <!-- Surface/card colours for light theme -->
     <color name="card_bg">#FFFFFFFF</color>
     <color name="surface">#FFFFFFFF</color>
-    <color name="background">#FFF0FAFB</color>
+    <color name="background">#FFF5F3FF</color>
 
-    <color name="widget_bg">#CC00695C</color>
-    <color name="text_primary">#FF1A2E2C</color>
-    <color name="text_secondary">#FF5F7E7B</color>
-    <color name="days_number">#FF00897B</color>
-    <color name="delete_red">#FFE53935</color>
-    <color name="color_picker_stroke">#FF1A2E2C</color>
-    <color name="progress_track">#1A00897B</color>
+    <color name="widget_bg">#CC5B21B6</color>
+    <color name="text_primary">#FF1C1033</color>
+    <color name="text_secondary">#FF6B7280</color>
+    <color name="days_number">#FF7C3AED</color>
+    <color name="delete_red">#FFEF4444</color>
+    <color name="color_picker_stroke">#FF1C1033</color>
+    <color name="progress_track">#1A7C3AED</color>
+
+    <!-- Milestone badge colours -->
+    <color name="milestone_urgent">#FFEF4444</color>
+    <color name="milestone_soon">#FFF97316</color>
+    <color name="milestone_near">#FFEAB308</color>
+    <color name="milestone_normal">#FF7C3AED</color>
+
+    <!-- Category chip background -->
+    <color name="chip_bg">#1A7C3AED</color>
 
     <!-- Widget light-background text colours: intentionally not overridden in night mode
          because this palette is always used on a white/light widget background -->
-    <color name="widget_text_on_light">#FF1A2E2C</color>
-    <color name="widget_accent_on_light">#FF00695C</color>
-    <color name="widget_subtext_on_light">#FF5F7E7B</color>
+    <color name="widget_text_on_light">#FF1C1033</color>
+    <color name="widget_accent_on_light">#FF5B21B6</color>
+    <color name="widget_subtext_on_light">#FF6B7280</color>
 </resources>

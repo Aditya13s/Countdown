@@ -67,10 +67,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadEvents() {
         val loaded = EventStorage.getEvents(this).let { list ->
-            when (sortMode) {
+            val sorted = when (sortMode) {
                 SortMode.DATE -> list.sortedBy { it.dateMillis }
                 SortMode.NAME -> list.sortedBy { it.name.lowercase() }
             }
+            // Pinned events always appear first
+            sorted.sortedByDescending { it.isPinned }
         }
         events.clear()
         events.addAll(loaded)

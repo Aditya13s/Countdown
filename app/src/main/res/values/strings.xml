@@ -43,6 +43,20 @@
     <string name="bg_style_light">Light</string>
     <string name="settings_saved">Settings saved</string>
 
+    <!-- Milestone messages -->
+    <string name="milestone_today">🎊 It\'s happening TODAY!</string>
+    <string name="milestone_days_3">🔥 Almost there! Just a few days!</string>
+    <string name="milestone_days_7">⚡ Less than a week to go!</string>
+    <string name="milestone_days_30">💪 Getting close! Under a month!</string>
+    <string name="milestone_days_100">🚀 On the countdown!</string>
+
+    <!-- Category picker -->
+    <string name="pick_category_label">Category</string>
+    <string name="category_none">None</string>
+
+    <!-- Pin event -->
+    <string name="pin_event_label">📌 Pin to top</string>
+
     <!-- Widget config -->
     <string name="widget_config_title">Widget Setup</string>
     <string name="widget_config_subtitle">Choose which event to display on the widget</string>

@@ -7,6 +7,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.countdown.databinding.ItemEventBinding
 import java.text.SimpleDateFormat
@@ -50,9 +51,21 @@ class EventAdapter(
         holder.binding.tvEmoji.background = badgeBg
         holder.binding.tvEmoji.text = event.emoji ?: "🎯"
 
+        // ── Pin indicator ─────────────────────────────────────────────────────
+        holder.binding.tvPin.visibility = if (event.isPinned) View.VISIBLE else View.GONE
+
         // ── Text fields ───────────────────────────────────────────────────────
         holder.binding.tvEventName.text = event.name
         holder.binding.tvEventDate.text = dateFormat.format(Date(event.dateMillis))
+
+        // ── Category chip ─────────────────────────────────────────────────────
+        val category = event.category?.trim()
+        if (!category.isNullOrEmpty()) {
+            holder.binding.tvCategory.text = category
+            holder.binding.tvCategory.visibility = View.VISIBLE
+        } else {
+            holder.binding.tvCategory.visibility = View.GONE
+        }
 
         val note = event.note?.trim()
         if (!note.isNullOrEmpty()) {
@@ -71,6 +84,7 @@ class EventAdapter(
             val tc = event.timeComponents()
             if (tc.isZero) {
                 holder.binding.tvCountdown.text = context.getString(R.string.event_passed)
+                holder.binding.tvMilestone.visibility = View.GONE
                 return
             }
             holder.binding.tvCountdown.text = when {
@@ -83,6 +97,24 @@ class EventAdapter(
                 else -> context.getString(
                     R.string.countdown_ms, tc.minutes, tc.seconds
                 )
+            }
+
+            // ── Milestone message ─────────────────────────────────────────────
+            val days = tc.days
+            val (milestoneText, milestoneColorRes) = when {
+                days == 0L -> context.getString(R.string.milestone_today) to R.color.milestone_urgent
+                days <= 3 -> context.getString(R.string.milestone_days_3) to R.color.milestone_urgent
+                days <= 7 -> context.getString(R.string.milestone_days_7) to R.color.milestone_soon
+                days <= 30 -> context.getString(R.string.milestone_days_30) to R.color.milestone_near
+                days <= 100 -> context.getString(R.string.milestone_days_100) to R.color.milestone_normal
+                else -> "" to R.color.milestone_normal
+            }
+            if (milestoneText.isNotEmpty()) {
+                holder.binding.tvMilestone.text = milestoneText
+                holder.binding.tvMilestone.setTextColor(ContextCompat.getColor(context, milestoneColorRes))
+                holder.binding.tvMilestone.visibility = View.VISIBLE
+            } else {
+                holder.binding.tvMilestone.visibility = View.GONE
             }
         }
 
