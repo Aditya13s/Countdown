@@ -4,12 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF3F4F8"
+    android:background="?android:attr/colorBackground"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:elevation="4dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -31,12 +32,13 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- Event name field -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_event_name"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:hint="@string/event_name_hint">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -48,39 +50,104 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Date picker -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/select_date_label"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.08" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tv_selected_date"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/not_selected"
+                    android:textColor="?attr/colorOnBackground"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_pick_date"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pick_date" />
+
+            </LinearLayout>
+
+            <!-- Colour picker -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@string/select_date_label"
+                android:text="@string/pick_colour_label"
                 android:textColor="@color/text_secondary"
-                android:textSize="14sp" />
+                android:textSize="13sp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.08" />
 
-            <TextView
-                android:id="@+id/tv_selected_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/not_selected"
-                android:textColor="@color/text_primary"
-                android:textSize="16sp" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_pick_date"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/pick_date" />
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:gravity="start">
 
+                <View android:id="@+id/color0"
+                    android:layout_width="38dp" android:layout_height="38dp"
+                    android:layout_marginEnd="8dp" />
+
+                <View android:id="@+id/color1"
+                    android:layout_width="38dp" android:layout_height="38dp"
+                    android:layout_marginEnd="8dp" />
+
+                <View android:id="@+id/color2"
+                    android:layout_width="38dp" android:layout_height="38dp"
+                    android:layout_marginEnd="8dp" />
+
+                <View android:id="@+id/color3"
+                    android:layout_width="38dp" android:layout_height="38dp"
+                    android:layout_marginEnd="8dp" />
+
+                <View android:id="@+id/color4"
+                    android:layout_width="38dp" android:layout_height="38dp"
+                    android:layout_marginEnd="8dp" />
+
+                <View android:id="@+id/color5"
+                    android:layout_width="38dp" android:layout_height="38dp"
+                    android:layout_marginEnd="8dp" />
+
+                <View android:id="@+id/color6"
+                    android:layout_width="38dp" android:layout_height="38dp"
+                    android:layout_marginEnd="8dp" />
+
+                <View android:id="@+id/color7"
+                    android:layout_width="38dp" android:layout_height="38dp" />
+
+            </LinearLayout>
+
+            <!-- Save button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:enabled="false"
                 android:text="@string/save"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp" />
 
         </LinearLayout>
     </ScrollView>
