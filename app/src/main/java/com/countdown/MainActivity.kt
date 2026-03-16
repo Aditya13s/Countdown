@@ -41,7 +41,9 @@ class MainActivity : AppCompatActivity() {
         events.clear()
         events.addAll(loaded)
         adapter.notifyDataSetChanged()
-        binding.tvEmpty.visibility = if (events.isEmpty()) View.VISIBLE else View.GONE
+        val isEmpty = events.isEmpty()
+        binding.tvEmpty.visibility = if (isEmpty) View.VISIBLE else View.GONE
+        binding.recyclerView.visibility = if (isEmpty) View.GONE else View.VISIBLE
     }
 
     private fun deleteEvent(event: Event) {

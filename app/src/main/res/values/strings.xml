@@ -4,16 +4,24 @@
     <string name="add_event">Add Event</string>
     <string name="event_name_hint">Event name (e.g. Exam, Birthday)</string>
     <string name="pick_date">Pick Date</string>
-    <string name="save">Save</string>
+    <string name="save">Save Event</string>
     <string name="days_left">days left</string>
     <string name="day_left">day left</string>
     <string name="no_events">No events yet.\nTap + to add one!</string>
+    <string name="no_events_title">No events yet</string>
+    <string name="no_events_subtitle">Tap the button below to start\ncounting down to something exciting!</string>
     <string name="error_enter_name">Please enter an event name</string>
     <string name="error_pick_date">Please pick a date</string>
     <string name="event_added">"%s" added!</string>
     <string name="event_deleted">"%s" deleted</string>
     <string name="widget_no_event">No upcoming events</string>
-    <string name="select_date_label">Selected date:</string>
+    <string name="select_date_label">Date</string>
     <string name="not_selected">Not selected</string>
     <string name="delete">Delete</string>
+    <string name="pick_colour_label">Colour</string>
+    <string name="event_passed">Event passed!</string>
+    <!-- Countdown format strings -->
+    <string name="countdown_dhms">%1$dd %2$dh %3$dm %4$ds</string>
+    <string name="countdown_hms">%1$dh %2$dm %3$ds</string>
+    <string name="countdown_ms">%1$dm %2$ds</string>
 </resources>

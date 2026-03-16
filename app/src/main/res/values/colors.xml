@@ -9,10 +9,16 @@
     <color name="white">#FFFFFFFF</color>
     <color name="accent">#FF5C6BC0</color>
     <color name="accent_dark">#FF3949AB</color>
+
+    <!-- Surface/card colours for light theme -->
     <color name="card_bg">#FFFFFFFF</color>
+    <color name="surface">#FFFFFFFF</color>
+    <color name="background">#FFF3F4F8</color>
+
     <color name="widget_bg">#CC3949AB</color>
     <color name="text_primary">#FF212121</color>
     <color name="text_secondary">#FF757575</color>
     <color name="days_number">#FF5C6BC0</color>
     <color name="delete_red">#FFE53935</color>
+    <color name="color_picker_stroke">#FF212121</color>
 </resources>
