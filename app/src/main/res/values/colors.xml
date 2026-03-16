@@ -21,4 +21,5 @@
     <color name="days_number">#FF5C6BC0</color>
     <color name="delete_red">#FFE53935</color>
     <color name="color_picker_stroke">#FF212121</color>
+    <color name="progress_track">#1A5C6BC0</color>
 </resources>

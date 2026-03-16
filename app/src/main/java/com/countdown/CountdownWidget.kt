@@ -40,6 +40,7 @@ class CountdownWidget : AppWidgetProvider() {
 
             if (nextEvent != null) {
                 val days = nextEvent.daysRemaining()
+                views.setTextViewText(R.id.widget_emoji, nextEvent.emoji ?: "🎯")
                 views.setTextViewText(R.id.widget_event_name, nextEvent.name)
                 views.setTextViewText(R.id.widget_days_count, days.toString())
                 views.setTextViewText(
@@ -48,6 +49,7 @@ class CountdownWidget : AppWidgetProvider() {
                     else context.getString(R.string.days_left)
                 )
             } else {
+                views.setTextViewText(R.id.widget_emoji, "⏳")
                 views.setTextViewText(R.id.widget_event_name, context.getString(R.string.widget_no_event))
                 views.setTextViewText(R.id.widget_days_count, "-")
                 views.setTextViewText(R.id.widget_days_label, context.getString(R.string.days_left))

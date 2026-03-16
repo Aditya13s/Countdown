@@ -7,8 +7,18 @@
     android:background="@drawable/widget_background"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="12dp">
+    android:padding="8dp">
 
+    <!-- Emoji badge -->
+    <TextView
+        android:id="@+id/widget_emoji"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="🎯"
+        android:textSize="20sp" />
+
+    <!-- Event name -->
     <TextView
         android:id="@+id/widget_event_name"
         android:layout_width="match_parent"
@@ -17,9 +27,10 @@
         android:gravity="center"
         android:maxLines="1"
         android:text="Event"
-        android:textColor="#FFFFFFFF"
-        android:textSize="14sp" />
+        android:textColor="#DDFFFFFF"
+        android:textSize="11sp" />
 
+    <!-- Days number -->
     <TextView
         android:id="@+id/widget_days_count"
         android:layout_width="match_parent"
@@ -27,16 +38,17 @@
         android:gravity="center"
         android:text="0"
         android:textColor="#FFFFFFFF"
-        android:textSize="48sp"
+        android:textSize="36sp"
         android:textStyle="bold" />
 
+    <!-- "days left" label -->
     <TextView
         android:id="@+id/widget_days_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="days left"
-        android:textColor="#CCFFFFFF"
-        android:textSize="12sp" />
+        android:textColor="#AAFFFFFF"
+        android:textSize="10sp" />
 
 </LinearLayout>

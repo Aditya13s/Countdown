@@ -9,4 +9,5 @@
     <color name="days_number">#FF7986CB</color>
     <color name="accent">#FF7986CB</color>
     <color name="color_picker_stroke">#FFEEEEEE</color>
+    <color name="progress_track">#1A7986CB</color>
 </resources>
