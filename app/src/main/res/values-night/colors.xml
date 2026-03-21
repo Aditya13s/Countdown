@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Override colours for dark theme -->
-    <color name="card_bg">#FF1A0F2E</color>
-    <color name="surface">#FF1A0F2E</color>
-    <color name="background">#FF0F0A1E</color>
-    <color name="text_primary">#FFE9D5FF</color>
-    <color name="text_secondary">#FFA78BFA</color>
-    <color name="days_number">#FFA78BFA</color>
-    <color name="accent">#FFA78BFA</color>
-    <color name="pink_accent">#FFF9A8D4</color>
-    <color name="color_picker_stroke">#FFE9D5FF</color>
-    <color name="progress_track">#1AA78BFA</color>
-    <color name="chip_bg">#1AA78BFA</color>
+    <color name="card_bg">#FF2B2930</color>
+    <color name="surface">#FF2B2930</color>
+    <color name="background">#FF141218</color>
+    <color name="text_primary">#FFE6E1E5</color>
+    <color name="text_secondary">#FFCAC4D0</color>
+    <color name="days_number">#FFD0BCFF</color>
+    <color name="accent">#FFD0BCFF</color>
+    <color name="pink_accent">#FFEFB8C8</color>
+    <color name="accent_dark">#FF4F378B</color>
+    <color name="color_picker_stroke">#FFE6E1E5</color>
+    <color name="progress_track">#1AD0BCFF</color>
+    <color name="chip_bg">#1AD0BCFF</color>
 </resources>
