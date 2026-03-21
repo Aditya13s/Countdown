@@ -8,6 +8,9 @@ import android.content.Intent
 import android.util.TypedValue
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class CountdownWidget : AppWidgetProvider() {
 
@@ -75,9 +78,12 @@ class CountdownWidget : AppWidgetProvider() {
                 views.setTextColor(R.id.widget_event_name, ContextCompat.getColor(context, R.color.widget_text_on_light))
                 views.setTextColor(R.id.widget_days_count, ContextCompat.getColor(context, R.color.widget_accent_on_light))
                 views.setTextColor(R.id.widget_days_label, ContextCompat.getColor(context, R.color.widget_subtext_on_light))
+                views.setTextColor(R.id.widget_event_date, ContextCompat.getColor(context, R.color.widget_subtext_on_light))
             }
 
             val event = EventStorage.getEventForWidget(context, widgetId)
+            // Create a new instance per call — SimpleDateFormat is not thread-safe
+            val dateFmt = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
 
             if (event != null) {
                 val days = event.daysRemaining()
@@ -89,11 +95,16 @@ class CountdownWidget : AppWidgetProvider() {
                     if (days == 1L) context.getString(R.string.day_left)
                     else context.getString(R.string.days_left)
                 )
+                views.setTextViewText(
+                    R.id.widget_event_date,
+                    dateFmt.format(Date(event.dateMillis))
+                )
             } else {
                 views.setTextViewText(R.id.widget_emoji, "⏳")
                 views.setTextViewText(R.id.widget_event_name, context.getString(R.string.widget_no_event))
                 views.setTextViewText(R.id.widget_days_count, "-")
                 views.setTextViewText(R.id.widget_days_label, context.getString(R.string.days_left))
+                views.setTextViewText(R.id.widget_event_date, "")
             }
 
             // Tap widget to open app

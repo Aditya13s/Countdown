@@ -2,10 +2,13 @@ package com.countdown
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.material.color.DynamicColors
 
 class CountdownApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+        // Apply Material You dynamic colors on Android 12+ (falls back to static theme on older)
+        DynamicColors.applyToActivitiesIfAvailable(this)
         applyStoredTheme()
         NotificationHelper.createNotificationChannel(this)
     }

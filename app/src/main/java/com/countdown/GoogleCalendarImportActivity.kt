@@ -67,16 +67,31 @@ class GoogleCalendarImportActivity : AppCompatActivity() {
         val now = System.currentTimeMillis()
         val endTime = now + 365L * 24 * 60 * 60 * 1000
 
+        // Only load events from calendars the user can edit (access level >= OVERRIDE = 400).
+        // This excludes read-only holiday / birthday / festival calendars.
+        val userCalendarIds = getUserCalendarIds()
+
         val projection = arrayOf(
             CalendarContract.Events._ID,
             CalendarContract.Events.TITLE,
             CalendarContract.Events.DTSTART,
             CalendarContract.Events.CALENDAR_ID
         )
-        val selection = "(${CalendarContract.Events.DTSTART} >= ?) " +
+
+        val baseSelection = "(${CalendarContract.Events.DTSTART} >= ?) " +
                 "AND (${CalendarContract.Events.DTSTART} <= ?) " +
                 "AND (${CalendarContract.Events.DELETED} != 1)"
-        val selectionArgs = arrayOf(now.toString(), endTime.toString())
+
+        // If we found user calendars, restrict to those; otherwise fall back to all.
+        val (selection, selectionArgs) = if (userCalendarIds.isNotEmpty()) {
+            val placeholders = userCalendarIds.joinToString(",") { "?" }
+            val sel = "$baseSelection AND (${CalendarContract.Events.CALENDAR_ID} IN ($placeholders))"
+            val args = arrayOf(now.toString(), endTime.toString()) + userCalendarIds.map { it.toString() }.toTypedArray()
+            sel to args
+        } else {
+            baseSelection to arrayOf(now.toString(), endTime.toString())
+        }
+
         val sortOrder = "${CalendarContract.Events.DTSTART} ASC"
 
         try {
@@ -113,6 +128,31 @@ class GoogleCalendarImportActivity : AppCompatActivity() {
         binding.tvEmpty.visibility = if (empty) View.VISIBLE else View.GONE
         binding.recyclerView.visibility = if (empty) View.GONE else View.VISIBLE
         updateImportButton()
+    }
+
+    /**
+     * Returns IDs of calendars that the user owns or can edit (access level >= 400 / OVERRIDE).
+     * Holiday, birthday, and other system-managed read-only calendars have a lower access level
+     * and are therefore excluded from the result.
+     */
+    private fun getUserCalendarIds(): List<Long> {
+        val ids = mutableListOf<Long>()
+        val projection = arrayOf(CalendarContract.Calendars._ID)
+        // CalendarContract.Calendars.CAL_ACCESS_OVERRIDE = 400
+        val selection = "${CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL} >= ?"
+        val selectionArgs = arrayOf("400")
+        try {
+            contentResolver.query(
+                CalendarContract.Calendars.CONTENT_URI,
+                projection, selection, selectionArgs, null
+            )?.use { cursor ->
+                val idIdx = cursor.getColumnIndexOrThrow(CalendarContract.Calendars._ID)
+                while (cursor.moveToNext()) {
+                    ids.add(cursor.getLong(idIdx))
+                }
+            }
+        } catch (_: Exception) { /* fall back to showing all calendars */ }
+        return ids
     }
 
     private fun showPermissionDenied() {
