@@ -94,4 +94,25 @@
     <string name="reminder_1day">1 Day</string>
     <string name="reminder_3days">3 Days</string>
     <string name="reminder_7days">7 Days</string>
+
+    <!-- Google Calendar Import -->
+    <string name="import_from_calendar">Import from Calendar</string>
+    <string name="calendar_import_subtitle">Select events from your calendar to track</string>
+    <string name="select_all">Select All</string>
+    <string name="deselect_all">Deselect All</string>
+    <string name="import_events">Import Events</string>
+    <string name="import_n_events">Import %d Events</string>
+    <string name="no_calendar_events">No upcoming calendar events found.\nMake sure a calendar is synced on this device.</string>
+    <string name="calendar_permission_denied">Calendar permission is required to import events.\nPlease grant permission in Settings.</string>
+    <string name="calendar_read_error">Could not read calendar events</string>
+    <string name="events_imported">%d event(s) imported successfully!</string>
+    <string name="events_all_duplicates">All selected events already exist in the app</string>
+    <string name="events_imported_with_skipped">%1$d event(s) imported, %2$d skipped (already exist)</string>
+
+    <!-- Settings additions -->
+    <string name="section_display">Display</string>
+    <string name="show_progress_bars_label">Show Progress Bars</string>
+    <string name="show_progress_bars_subtitle">Show timeline progress on event cards</string>
+    <string name="compact_mode_label">Compact Mode</string>
+    <string name="compact_mode_subtitle">Reduce card size for denser list</string>
 </resources>

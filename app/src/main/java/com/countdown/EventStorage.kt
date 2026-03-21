@@ -15,6 +15,8 @@ object EventStorage {
     private const val KEY_THEME_MODE = "theme_mode"
     private const val KEY_SORT_MODE = "sort_mode"
     private const val KEY_REMINDER_DAYS = "reminder_days"
+    private const val KEY_SHOW_PROGRESS = "show_progress"
+    private const val KEY_COMPACT_MODE = "compact_mode"
     private val gson = Gson()
 
     private fun prefs(context: Context): SharedPreferences =
@@ -123,5 +125,21 @@ object EventStorage {
 
     fun setReminderDays(context: Context, days: Int) {
         prefs(context).edit().putInt(KEY_REMINDER_DAYS, days).apply()
+    }
+
+    // ── Display settings ──────────────────────────────────────────────────────
+
+    fun isShowProgress(context: Context): Boolean =
+        prefs(context).getBoolean(KEY_SHOW_PROGRESS, true)
+
+    fun setShowProgress(context: Context, show: Boolean) {
+        prefs(context).edit().putBoolean(KEY_SHOW_PROGRESS, show).apply()
+    }
+
+    fun isCompactMode(context: Context): Boolean =
+        prefs(context).getBoolean(KEY_COMPACT_MODE, false)
+
+    fun setCompactMode(context: Context, compact: Boolean) {
+        prefs(context).edit().putBoolean(KEY_COMPACT_MODE, compact).apply()
     }
 }

@@ -76,6 +76,10 @@ class MainActivity : AppCompatActivity() {
                 applyFilterAndDisplay()
                 true
             }
+            R.id.action_import_calendar -> {
+                startActivity(Intent(this, GoogleCalendarImportActivity::class.java))
+                true
+            }
             R.id.action_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
                 true

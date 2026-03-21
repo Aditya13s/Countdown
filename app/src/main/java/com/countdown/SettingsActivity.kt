@@ -64,6 +64,10 @@ class SettingsActivity : AppCompatActivity() {
             7 -> binding.rbReminder7.isChecked = true
             else -> binding.rbReminder1.isChecked = true
         }
+
+        // Display settings
+        binding.switchShowProgress.isChecked = EventStorage.isShowProgress(this)
+        binding.switchCompactMode.isChecked = EventStorage.isCompactMode(this)
     }
 
     private fun saveSettings() {
@@ -116,6 +120,10 @@ class SettingsActivity : AppCompatActivity() {
         if (reminderDays != prevReminder) {
             NotificationHelper.rescheduleAll(this)
         }
+
+        // Display settings
+        EventStorage.setShowProgress(this, binding.switchShowProgress.isChecked)
+        EventStorage.setCompactMode(this, binding.switchCompactMode.isChecked)
 
         CountdownWidget.updateAllWidgets(this)
         Snackbar.make(binding.root, R.string.settings_saved, Snackbar.LENGTH_SHORT).show()
