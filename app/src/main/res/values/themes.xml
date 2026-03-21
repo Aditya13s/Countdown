@@ -5,7 +5,7 @@
         <item name="colorPrimaryContainer">@color/accent_dark</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/pink_accent</item>
-        <item name="colorSecondaryVariant">#FFDB2777</item>
+        <item name="colorSecondaryContainer">#FFDB2777</item>
         <item name="colorOnSecondary">@color/white</item>
         <item name="android:statusBarColor">?attr/colorPrimaryContainer</item>
         <item name="colorSurface">@color/surface</item>
