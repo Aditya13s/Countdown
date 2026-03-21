@@ -10,6 +10,12 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/action_import_calendar"
+        android:title="@string/import_from_calendar"
+        android:icon="@android:drawable/ic_menu_agenda"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_settings"
         android:title="@string/settings"
         android:icon="@android:drawable/ic_menu_preferences"

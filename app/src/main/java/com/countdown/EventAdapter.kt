@@ -52,6 +52,9 @@ class EventAdapter(
         holder.binding.tvEmoji.background = badgeBg
         holder.binding.tvEmoji.text = event.emoji ?: "🎯"
 
+        // Color accent bar at top of card
+        holder.binding.viewColorBar.setBackgroundColor(color)
+
         // ── Pin indicator ─────────────────────────────────────────────────────
         holder.binding.tvPin.visibility = if (event.isPinned) View.VISIBLE else View.GONE
 
@@ -79,6 +82,8 @@ class EventAdapter(
         // ── Progress bar ──────────────────────────────────────────────────────
         val pct = event.progressPercent()
         holder.binding.progressIndicator.progress = pct
+        val showProgress = EventStorage.isShowProgress(context)
+        holder.binding.progressIndicator.visibility = if (showProgress) View.VISIBLE else View.GONE
 
         // ── Live countdown ticker ─────────────────────────────────────────────
         fun tick() {
